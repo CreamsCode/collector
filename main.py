@@ -26,7 +26,7 @@ def main():
     )
 
     while True:
-        run_scraper(sender, args.number_of_books)
+        run_scraper(sender)
 
 
 if __name__ == "__main__":
