@@ -8,9 +8,15 @@ def run_scraper(sqs_client):
     logging.info("Starting scraper...")
     scraper = WebScraper()
     result = scraper.start()
-    if result and sqs_client:
-        sqs_client.send_message(result)
-        logging.info(f"Message sent to queue: {result}")
+
+    if result:
+        try:
+            logging.info(f"Sending result to SQS: {result}")
+            sqs_client.send_message(result)
+        except Exception as e:
+            logging.error(f"Failed to send message to SQS: {e}")
+    else:
+        logging.warning("No data processed by the scraper.")
 
 
 def main():

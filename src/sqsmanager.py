@@ -12,7 +12,6 @@ class SQSManager:
         )
 
     def send_message(self, message_body):
-        # Convertir el mensaje a JSON y comprimirlo
         message_json = json.dumps(message_body).encode('utf-8')
         compressed_message = base64.b64encode(gzip.compress(message_json)).decode('utf-8')
 
