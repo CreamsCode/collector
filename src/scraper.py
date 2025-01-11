@@ -34,6 +34,7 @@ class WebScraper:
         return content_match.group(2).strip() if content_match else None
 
     def start(self):
+        word_info = None
         logging.info("Starting WebScraper...")
 
         num_str = str(random.randint(1, 70000))
