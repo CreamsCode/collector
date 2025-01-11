@@ -7,6 +7,7 @@ class Reader:
     def __init__(self):
         nltk.download('stopwords', quiet=True)
         nltk.download('punkt', quiet=True)
+        nltk.download('punkt_tab', quiet=True)
         self.stopwords_eng = set(stopwords.words('english'))
 
     def preprocessing(self, texto):
