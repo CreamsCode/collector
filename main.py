@@ -26,8 +26,6 @@ def main():
 
     sender = SQSManager(
         queue_url=args.queue_url,
-        aws_access_key_id=args.aws_access_key_id,
-        aws_secret_access_key=args.aws_secret_access_key,
         region_name=args.region_name
     )
 

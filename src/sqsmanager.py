@@ -4,7 +4,7 @@ import gzip
 import base64
 
 class SQSManager:
-    def __init__(self, queue_url, aws_access_key_id, aws_secret_access_key, region_name="us-east-1"):
+    def __init__(self, queue_url, region_name="us-east-1"):
         self.queue_url = queue_url
         self.client = boto3.client(
             'sqs',
