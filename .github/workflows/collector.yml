@@ -6,15 +6,12 @@ on:
       aws_access_key_id:
         description: 'AWS Access Key ID'
         required: true
-        default: ${{ secrets.AWS_ACCESS_KEY_ID }}
       aws_secret_access_key:
         description: 'AWS Secret Access Key'
         required: true
-        default: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       aws_session_token:
         description: 'AWS Session Token'
         required: false
-        default: ${{ secrets.AWS_SESSION_TOKEN }}
 
 jobs:
   deploy:
