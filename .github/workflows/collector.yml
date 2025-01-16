@@ -1,0 +1,34 @@
+name: Deploy Collector
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.10.4
+
+      - name: Deploy Collector with Terraform
+        run: terraform apply -auto-approve
+
+      - name: Debug Terraform
+        run: |
+          terraform output
+
+      - name: Export Outputs
+        run: |
+          SQS_QUEUE_URL=$(terraform output -raw sqs_queue_url)
+          SCRAPER_IP=$(terraform output -raw ec2_public_ip)
+          echo "SQS_QUEUE_URL=$SQS_QUEUE_URL"
+          echo "SCRAPER_IP=$SCRAPER_IP"
+
+      - name: Destroy Collector
+        run: terraform destroy -auto-approve
