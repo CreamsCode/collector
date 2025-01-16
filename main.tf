@@ -62,12 +62,14 @@ output "collector_public_ip" {
 resource "aws_ssm_parameter" "sqs_queue_url" {
   name  = "sqs_queue_url"
   type  = "String"
+  overwrite = true
   value = aws_sqs_queue.scraper_queue.url
 }
 
 resource "aws_ssm_parameter" "scraper_ip" {
   name  = "scraper_ip"
   type  = "String"
+  overwrite = true
   value = aws_instance.scraper_instance.public_ip
 }
 
