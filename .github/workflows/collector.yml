@@ -16,6 +16,9 @@ jobs:
         with:
           terraform_version: 1.5.0
 
+      - name: Terraform Init
+        run: terraform init
+
       - name: Deploy Collector with Terraform
         run: terraform apply -auto-approve
 
