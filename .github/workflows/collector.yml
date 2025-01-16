@@ -20,6 +20,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    outputs: # Definir outputs del job
+      sqs_queue_url: ${{ steps.export_outputs.outputs.sqs_queue_url }}
+      scraper_ip: ${{ steps.export_outputs.outputs.scraper_ip }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -47,11 +51,10 @@ jobs:
           terraform output
 
       - name: Export Outputs
+        id: export_outputs # ID para referenciar los outputs
         run: |
-          SQS_QUEUE_URL=$(terraform output -raw sqs_queue_url)
-          SCRAPER_IP=$(terraform output -raw ec2_public_ip)
-          echo "SQS_QUEUE_URL=$SQS_QUEUE_URL"
-          echo "SCRAPER_IP=$SCRAPER_IP"
+          echo "::set-output name=sqs_queue_url::$(terraform output -raw sqs_queue_url)"
+          echo "::set-output name=scraper_ip::$(terraform output -raw collector_public_ip)"
 
       - name: Destroy Collector
         run: terraform destroy -auto-approve
