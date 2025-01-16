@@ -53,6 +53,3 @@ jobs:
         run: |
           echo "::set-output name=sqs_queue_url::$(terraform output -raw sqs_queue_url)"
           echo "::set-output name=scraper_ip::$(terraform output -raw collector_public_ip)"
-
-      - name: Destroy Collector
-        run: terraform destroy -auto-approve
