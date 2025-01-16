@@ -49,7 +49,7 @@ jobs:
           terraform output
 
       - name: Export Outputs
-        id: export_outputs # ID para referenciar los outputs
+        id: export_outputs
         run: |
-          echo "::set-output name=sqs_queue_url::$(terraform output -raw sqs_queue_url)"
-          echo "::set-output name=scraper_ip::$(terraform output -raw collector_public_ip)"
+          echo "sqs_queue_url=$(terraform output -raw sqs_queue_url)"
+          echo "collector_public_ip=$(terraform output -raw collector_public_ip)"
