@@ -58,3 +58,16 @@ output "sqs_queue_url" {
 output "collector_public_ip" {
   value = aws_instance.scraper_instance.public_ip
 }
+
+resource "aws_ssm_parameter" "sqs_queue_url" {
+  name  = "sqs_queue_url"
+  type  = "String"
+  value = aws_sqs_queue.scraper_queue.url
+}
+
+resource "aws_ssm_parameter" "scraper_ip" {
+  name  = "scraper_ip"
+  type  = "String"
+  value = aws_instance.scraper_instance.public_ip
+}
+

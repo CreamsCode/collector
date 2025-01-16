@@ -48,8 +48,4 @@ jobs:
         run: |
           terraform output
 
-      - name: Store Outputs in Parameter Store
-        run: |
-          aws ssm put-parameter --name "sqs_queue_url" --value "$(terraform output -raw sqs_queue_url)" --type String --overwrite
-          aws ssm put-parameter --name "scraper_ip" --value "$(terraform output -raw collector_public_ip)" --type String --overwrite
       
