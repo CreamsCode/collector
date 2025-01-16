@@ -48,10 +48,8 @@ jobs:
         run: |
           terraform output
 
-      - name: Export Outputs
-        id: export_outputs
+      - name: Store Outputs in Parameter Store
         run: |
-          echo "sqs_queue_url=$(terraform output -raw sqs_queue_url)"
-          echo "collector_public_ip=$(terraform output -raw collector_public_ip)"
-          echo "sqs_queue_url=$(terraform output -raw sqs_queue_url)" >> collector_outputs.txt
-          echo "collector_public_ip=$(terraform output -raw collector_public_ip)" >> collector_outputs.txt
+          aws ssm put-parameter --name "sqs_queue_url" --value "$(terraform output -raw sqs_queue_url)" --type String --overwrite
+          aws ssm put-parameter --name "scraper_ip" --value "$(terraform output -raw collector_public_ip)" --type String --overwrite
+      
