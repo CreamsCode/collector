@@ -53,3 +53,5 @@ jobs:
         run: |
           echo "sqs_queue_url=$(terraform output -raw sqs_queue_url)"
           echo "collector_public_ip=$(terraform output -raw collector_public_ip)"
+          echo "sqs_queue_url=$(terraform output -raw sqs_queue_url)" >> collector_outputs.txt
+          echo "collector_public_ip=$(terraform output -raw collector_public_ip)" >> collector_outputs.txt
