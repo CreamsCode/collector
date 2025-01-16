@@ -2,6 +2,19 @@ name: Deploy Collector
 
 on:
   workflow_dispatch:
+    inputs:
+      aws_access_key_id:
+        description: 'AWS Access Key ID'
+        required: true
+        default: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      aws_secret_access_key:
+        description: 'AWS Secret Access Key'
+        required: true
+        default: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      aws_session_token:
+        description: 'AWS Session Token'
+        required: false
+        default: ${{ secrets.AWS_SESSION_TOKEN }}
 
 jobs:
   deploy:
@@ -10,6 +23,13 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Set up AWS Credentials
+        run: |
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=${{ github.event.inputs.aws_access_key_id }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key=${{ github.event.inputs.aws_secret_access_key }}" >> ~/.aws/credentials
+          echo "aws_session_token=${{ github.event.inputs.aws_session_token }}" >> ~/.aws/credentials
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
