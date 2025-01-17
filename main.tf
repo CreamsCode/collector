@@ -2,9 +2,53 @@ provider "aws" {
   region = "us-east-1" # Cambia la región si es necesario
 }
 
-# Crear una cola SQS
-resource "aws_sqs_queue" "scraper_queue" {
-  name = "scraper-queue"
+# Crear una VPC
+resource "aws_vpc" "scraper_vpc" {
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+  tags = {
+    Name = "Scraper-VPC"
+  }
+}
+
+# Crear una subred
+resource "aws_subnet" "scraper_subnet" {
+  vpc_id                  = aws_vpc.scraper_vpc.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1a"
+  tags = {
+    Name = "Scraper-Subnet"
+  }
+}
+
+# Crear un gateway de Internet
+resource "aws_internet_gateway" "scraper_igw" {
+  vpc_id = aws_vpc.scraper_vpc.id
+  tags = {
+    Name = "Scraper-IGW"
+  }
+}
+
+# Crear una tabla de rutas para la VPC
+resource "aws_route_table" "scraper_route_table" {
+  vpc_id = aws_vpc.scraper_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.scraper_igw.id
+  }
+
+  tags = {
+    Name = "Scraper-Route-Table"
+  }
+}
+
+# Asociar la tabla de rutas con la subred
+resource "aws_route_table_association" "scraper_route_table_assoc" {
+  subnet_id      = aws_subnet.scraper_subnet.id
+  route_table_id = aws_route_table.scraper_route_table.id
 }
 
 # Crear un grupo de seguridad para la instancia EC2
@@ -23,6 +67,10 @@ resource "aws_security_group" "ec2_sg" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Scraper-SG"
   }
 }
 
