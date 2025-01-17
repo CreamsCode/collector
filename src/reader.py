@@ -22,7 +22,7 @@ class Reader:
         return [
             {
                 "word": word,
-                "lenght": len(word),
+                "length": len(word),
                 "frequency": freq
             }
             for word, freq in word_frequencies.items()
