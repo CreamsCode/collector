@@ -85,7 +85,7 @@ resource "aws_instance" "scraper_instance" {
   subnet_id     = aws_subnet.scraper_subnet.id
   iam_instance_profile   = "EMR_EC2_DefaultRole"
 
-  security_groups = [aws_security_group.ec2_sg.name]
+  security_groups = [aws_security_group.ec2_sg.id]
 
   user_data = <<-EOF
               #!/bin/bash
