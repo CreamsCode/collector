@@ -54,6 +54,7 @@ resource "aws_route_table_association" "scraper_route_table_assoc" {
 # Crear un grupo de seguridad para la instancia EC2
 resource "aws_security_group" "ec2_sg" {
   name_prefix = "scraper-sg"
+  vpc_id      = aws_vpc.scraper_vpc.id
 
   ingress {
     from_port   = 22
