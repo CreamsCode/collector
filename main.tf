@@ -82,6 +82,7 @@ resource "aws_instance" "scraper_instance" {
   ami           = "ami-05576a079321f21f8"
   instance_type = "t2.micro"
   key_name      = "vockey"
+  subnet_id     = aws_subnet.scraper_subnet.id
   iam_instance_profile   = "EMR_EC2_DefaultRole"
 
   security_groups = [aws_security_group.ec2_sg.name]
