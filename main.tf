@@ -74,6 +74,10 @@ resource "aws_security_group" "ec2_sg" {
   }
 }
 
+resource "aws_sqs_queue" "scraper_queue" {
+  name = "scraper-queue"
+}
+
 resource "aws_instance" "scraper_instance" {
   ami           = "ami-05576a079321f21f8"
   instance_type = "t2.micro"
