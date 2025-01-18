@@ -21,19 +21,19 @@ resource "aws_subnet" "scraper_subnet" {
   }
 }
 
-resource "aws_internet_gateway" "scraper_igw" {
+resource "aws_internet_gateway" "main_igw" {
   vpc_id = aws_vpc.main_vpc.id
   tags = {
-    Name = "Scraper-IGW"
+    Name = "Main-IGW"
   }
 }
 
-resource "aws_route_table" "scraper_route_table" {
+resource "aws_route_table" "main_route_table" {
   vpc_id = aws_vpc.main_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.scraper_igw.id
+    gateway_id = aws_internet_gateway.main_igw.id
   }
 
   tags = {
@@ -43,7 +43,7 @@ resource "aws_route_table" "scraper_route_table" {
 
 resource "aws_route_table_association" "scraper_route_table_assoc" {
   subnet_id      = aws_subnet.scraper_subnet.id
-  route_table_id = aws_route_table.scraper_route_table.id
+  route_table_id = aws_route_table.main_route_table.id
 }
 
 resource "aws_security_group" "ec2_sg" {
@@ -115,6 +115,17 @@ resource "aws_ssm_parameter" "vpc_id" {
   }
 }
 
+resource "aws_ssm_parameter" "igw_id" {
+  name  = "/shared/vpc/igw_id"
+  type  = "String"
+  value = aws_internet_gateway.main_igw.id
+}
+
+resource "aws_ssm_parameter" "route_table_id" {
+  name  = "/shared/vpc/route_table_id"
+  type  = "String"
+  value = aws_route_table.main_route_table.id
+}
 
 resource "aws_ssm_parameter" "sqs_queue_url" {
   name  = "sqs_queue_url"
