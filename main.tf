@@ -37,7 +37,7 @@ resource "aws_route_table" "main_route_table" {
   }
 
   tags = {
-    Name = "Scraper-Route-Table"
+    Name = "Main-Route-Table"
   }
 }
 
