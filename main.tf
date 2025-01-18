@@ -109,6 +109,7 @@ output "collector_public_ip" {
 resource "aws_ssm_parameter" "vpc_id" {
   name  = "/shared/vpc/id"
   type  = "String"
+  overwrite = true
   value = aws_vpc.main_vpc.id
   tags = {
     Name = "shared-vpc-id"
@@ -118,12 +119,14 @@ resource "aws_ssm_parameter" "vpc_id" {
 resource "aws_ssm_parameter" "igw_id" {
   name  = "/shared/vpc/igw_id"
   type  = "String"
+  overwrite = true
   value = aws_internet_gateway.main_igw.id
 }
 
 resource "aws_ssm_parameter" "route_table_id" {
   name  = "/shared/vpc/route_table_id"
   type  = "String"
+  overwrite = true
   value = aws_route_table.main_route_table.id
 }
 
